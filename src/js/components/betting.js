@@ -48,6 +48,9 @@ function FeedBrowserViewModel() {
   self.leverage = ko.observable(LEVERAGE_UNIT);
   self.notAnUrlFeed = ko.observable(false);
   self.jsonBetProvided = ko.observable(false);
+  self.broadcasts = ko.observableArray([]);
+  self.rawFeed = ko.observable(false);
+  self.feedType = ko.observable(null);
 
   self.notAnUrlFeed.subscribe(function(value) {
     if (value) {
@@ -230,21 +233,13 @@ function FeedBrowserViewModel() {
   	$('li.previous').addClass('disabled');
   	$('li.next.finish').hide();
     self.feed(null);
+    self.broadcasts(null);
     self.jsonBetProvided(false);
   }
 
-  self.displayFeed = function(feed) { 
-  $.jqlog.debug("displayFeed1"); 
-    $.jqlog.debug(feed);
-    if (typeof(feed.info_data) == "undefined") {
-      self.notAnUrlFeed(true);
-      return;
-    } else {
-      $('li.nextStep').removeClass('disabled');
-    }
-
-  	// prepare source addresses
-  	self.availableAddresses([]);
+  self.prepareAvailableAddresses = function() {
+    // prepare source addresses
+    self.availableAddresses([]);
     self.balances = {};
     var addresses = WALLET.getAddressesList(true);
     var options = []
@@ -256,6 +251,52 @@ function FeedBrowserViewModel() {
       self.balances[addresses[i][0]] = addresses[i][2];
     }
     self.availableAddresses(options);
+  }
+
+  self.displayBroadcast = function(feed) {
+    // prepare source addresses
+    self.prepareAvailableAddresses();
+    var broadcasts = feed.broadcasts;
+    for (var i in broadcasts) {
+      broadcasts[i].date_str = moment(broadcasts[i].timestamp).format('YYYY/MM/DD hh:mm:ss A Z');
+      broadcasts[i].fee = satoshiToPercent(broadcasts[i].fee_fraction_int);
+    }
+    self.broadcasts(broadcasts);
+
+    // prepare counters
+    var classes = {
+      'open': 'success',
+      'filled': 'primary',
+      'expired': 'danger'
+    };
+    for (var i in feed.counters.bets) {
+      feed.counters.bets[i].wager_quantity = normalizeQuantity(feed.counters.bets[i].wager_quantity) + ' XCP';
+      feed.counters.bets[i].wager_remaining = normalizeQuantity(feed.counters.bets[i].wager_remaining) + ' XCP';
+      feed.counters.bets[i].status_html = '<span class="label label-'+classes[feed.counters.bets[i].status]+'">'+feed.counters.bets[i].status+'</span>';
+
+    }
+    self.feedStats(feed.counters.bets);
+    $('li.nextStep').removeClass('disabled');
+    $('li.next').removeClass('disabled');
+    self.betType('BullCFD'); // to force change event
+    self.targetValue('');
+    self.feedType('all');
+  }
+
+  self.displayFeed = function(feed) { 
+    $.jqlog.debug("displayFeed1"); 
+    $.jqlog.debug(feed);
+    if (typeof(feed.info_data) == "undefined") {
+      if (typeof(feed.broadcasts) == "object") {
+        self.rawFeed(true);
+        self.displayBroadcast(feed);
+      } else {
+        self.notAnUrlFeed(true);
+      }
+      return;
+    }
+
+    self.prepareAvailableAddresses();
 
     // feed type
     // TODO: manage type == 'all'
@@ -265,7 +306,7 @@ function FeedBrowserViewModel() {
     } else {
       feed.info_data.type = 'binary';
     }
-   
+    self.feedType(feed.info_data.type);
     
     // labels for cfd
     if (feed.info_data.type=="cfd") {
@@ -317,7 +358,6 @@ function FeedBrowserViewModel() {
     }
     self.feedStats(feed.counters.bets)
     
-
     //$.jqlog.debug(feed);
     self.betType(''); // to force change event
     self.targetValue('');
@@ -335,6 +375,7 @@ function FeedBrowserViewModel() {
     }
     
     $('li.next').removeClass('disabled');
+    $('li.nextStep').removeClass('disabled');
   }
 
   self.loadFeed = function() {
