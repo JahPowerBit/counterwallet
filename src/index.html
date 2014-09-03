@@ -69,16 +69,16 @@
     <!-- HEADER -->
     <header id="header" style="display: none">
       <div id="logo-group">
-        <span id="logo"><span class="logoText">Counterwallet</span></span>
+        <span id="logo"><span class="logoText" data-bind="locale: 'counterwallet'"></span></span>
         
         <span id="notificationFeed" class="activity-parent" data-contenturl="pages/feed_notifications.html", data-bind="click: ack">
             <span class="activity-dropdown">
                 <i class="fa fa-check"></i><b data-bind="fadeVisible: unackedCount() > 0, text: unackedCount" class="badge"></b>
             </span>
             <div class="ajax-dropdown">
-              <h2>Notifications</h2>
+              <h2 data-bind="locale: 'notifications'"></h2>
               <div class="ajax-notifications custom-scroll"></div> <!-- notification content -->
-              <span><b>Last updated:</b> <span id="notoLastUpdated" data-bind="timeago: lastUpdated()"></span></span> <!-- footer -->
+              <span><b data-bind="locale: 'last_updated'"></b> <span id="notoLastUpdated" data-bind="timeago: lastUpdated()"></span></span> <!-- footer -->
             </div> <!-- .ajax-dropdown -->
         </span>
         
@@ -87,9 +87,9 @@
                 <i class="fa fa-clock-o"></i><b data-bind="visible: dispCount() > 0, text: dispCount" class="badge"></b>
             </span>
             <div class="ajax-dropdown">
-              <h2>Pending Actions</h2>
+              <h2 data-bind="locale: 'pending_actions'"></h2>
               <div class="ajax-notifications custom-scroll"></div> <!-- notification content -->
-              <span><b>Last updated:</b> <span id="pendingLastUpdated" data-bind="timeago: lastUpdated()"></span></span> <!-- footer -->
+              <span><b data-bind="locale: 'last_updated'"></b> <span id="pendingLastUpdated" data-bind="timeago: lastUpdated()"></span></span> <!-- footer -->
             </div> <!-- .ajax-dropdown -->
         </span>
 
@@ -98,17 +98,17 @@
                 <i class="fa fa-btc"></i><b data-bind="text: dispCount()" class="badge badge-error"></b>
             </span>
             <div class="ajax-dropdown">
-              <h2>Required BTC Pays</h2>
+              <h2 data-bind="locale: 'required_btc_pays'"></h2>
               <div class="ajax-notifications custom-scroll"></div> <!-- notification content -->
-              <span><b>Last updated:</b> <span id="pendingLastUpdated" data-bind="timeago: dispLastUpdated()"></span></span> <!-- footer -->
+              <span><b data-bind="locale: 'last_updated'"></b> <span id="pendingLastUpdated" data-bind="timeago: dispLastUpdated()"></span></span> <!-- footer -->
             </div> <!-- .ajax-dropdown -->
         </span>
         
       </div> <!-- logo-group -->
 
-      <span id="noticeTestnet" data-bind="visible: USE_TESTNET" >Testnet in use</span>
+      <span id="noticeTestnet" data-bind="visible: USE_TESTNET, locale: 'testnet_in_use'"></span>
 
-      <div class="pull-right"> <!-- pulled right: nav area -->
+      <div class="pull-right" id="headerBtsRight"> <!-- pulled right: nav area -->
         <div id="logout" class="btn-header transparent pull-right"> <!-- logout button -->
           <span> <a href="pages/logon.html" title="Sign Out"><i class="fa fa-sign-out"></i></a> </span>
         </div> <!-- end logout button -->
@@ -129,10 +129,10 @@
           <span> <a href="#" title="Collapse Menu"><i class="fa fa-minus-square"></i></a> </span>
         </div>
         
-        <span id="noticeDevMode" data-bind="visible: IS_DEV" class="label label-warning pull-right modeIndicator"><i class="fa-fw fa fa-warning"></i>&nbsp;Dev Mode Enabled</span>
+        <span id="noticeDevMode" data-bind="visible: IS_DEV, locale: 'dev_mode_enabled'" class="label label-warning pull-right modeIndicator"></span>
        
         <span id="donate" class="pull-right">
-          <a href="#" class="btn btn-primary">DONATE</a>
+          <a href="#" class="btn btn-primary" data-bind="locale: 'donate'"></a>
         </span>
 
       </div> <!-- end pulled right: nav area -->
@@ -148,45 +148,95 @@
         -->
         <ul>
           <li class="">
-            <a href="pages/balances.html"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">My Balances</span></a>
+            <a href="pages/balances.html">
+              <i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent" data-bind="locale: 'my_balance'"></span>
+            </a>
           </li>          
           <li class="">
-            <a href="#"><i class="fa fa-lg fa-fw fa-exchange"></i> <span class="menu-item-parent">Exchange</span></a>
+            <a href="#">
+              <i class="fa fa-lg fa-fw fa-exchange"></i> <span class="menu-item-parent" data-bind="locale: 'exchange'"></span>
+            </a>
             <ul>
-              <li><a href="pages/exchange.html"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> Markets</a></li>
-              <li><a href="pages/openorders.html"><i class="fa fa-lg fa-fw fa-circle-o"></i> Open Orders</a></li>
-              <li><a href="pages/ordermatches.html"><i class="fa fa-lg fa-fw fa-book"></i> My Order History</a></li>
+              <li>
+                <a href="pages/exchange.html">
+                  <i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span data-bind="locale: 'markets'"></span>
+                </a>
+              </li>
+              <li>
+                <a href="pages/openorders.html">
+                  <i class="fa fa-lg fa-fw fa-circle-o"></i> <span data-bind="locale: 'open_orders'"></span>
+                </a>
+              </li>
+              <li>
+                <a href="pages/ordermatches.html">
+                  <i class="fa fa-lg fa-fw fa-book"></i> <span data-bind="locale: 'my_order_history'"></span>
+                </a>
+              </li>
             </ul>
           </li>
-          <li data-bind="visible: QUICK_BUY_ENABLE"><a href="pages/simplebuy.html"><i class="fa fa-lg fa-fw fa-rocket"></i> Quick Buy</a></li>
+          <li data-bind="visible: QUICK_BUY_ENABLE">
+            <a href="pages/simplebuy.html">
+              <i class="fa fa-lg fa-fw fa-rocket"></i> <span data-bind="locale: 'quick_buy'"></span>
+            </a>
+          </li>
           <li class="" data-bind="visible: FEATURE_BETTING">
-            <a href="#"><i class="fa fa-lg fa-fw fa-bullseye"></i> <span class="menu-item-parent">Betting</span></a>
+            <a href="#">
+              <i class="fa fa-lg fa-fw fa-bullseye"></i> <span class="menu-item-parent" data-bind="locale: 'betting'"></span>
+            </a>
             <ul>
-              <li><a href="pages/betting.html"><i class="fa fa-lg fa-fw fa-share"></i> Make a Bet</a></li>
-              <li><a href="pages/openbets.html"><i class="fa fa-lg fa-fw fa-circle-o"></i> Open Bets</a></li>
-              <li><a href="pages/matchedbets.html"><i class="fa fa-lg fa-fw fa-book"></i> My Bet History</a></li>
+              <li>
+                <a href="pages/betting.html">
+                  <i class="fa fa-lg fa-fw fa-share"></i> <span data-bind="locale: 'make_a_bet'"></span>
+                </a>
+              </li>
+              <li>
+                <a href="pages/openbets.html">
+                  <i class="fa fa-lg fa-fw fa-circle-o"></i> <span data-bind="locale: 'open_bets'"></span>
+                </a>
+              </li>
+              <li>
+                <a href="pages/matchedbets.html">
+                  <i class="fa fa-lg fa-fw fa-book"></i> <span data-bind="locale: 'my_bet_history'"></span>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="" data-bind="visible: FEATURE_RPS">
-            <a href="#"><i class="fa fa-lg fa-fw fa-trophy"></i> <span class="menu-item-parent">Gaming</span></a>
+            <a href="#">
+              <i class="fa fa-lg fa-fw fa-trophy"></i> <span class="menu-item-parent" data-bind="locale: 'gaming'"></span>
+            </a>
             <ul>
-              <li><a href="pages/rps.html"><i class="fa-lg fa-fw glyphicon glyphicon-hand-right"></i> Rock-Paper-Scissors</a></li>
+              <li>
+                <a href="pages/rps.html">
+                  <i class="fa-lg fa-fw glyphicon glyphicon-hand-right"></i> <span data-bind="locale: 'rock_paper_scissors'"></span>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="" data-bind="visible: FEATURE_HISTORY">
-            <a href="pages/history.html"><i class="fa fa-lg fa-fw fa-book"></i> <span class="menu-item-parent">History</span></a>
+            <a href="pages/history.html">
+              <i class="fa fa-lg fa-fw fa-book"></i> <span class="menu-item-parent" data-bind="locale: 'history'"></span>
+            </a>
           </li>
           <li class="">
-            <a href="#"><i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent">More</span></a>
+            <a href="#">
+              <i class="fa fa-lg fa-fw fa-plus"></i> <span class="menu-item-parent" data-bind="locale: 'more'"></span>
+            </a>
             <ul>
                 <li data-bind="visible: FEATURE_PORTFOLIO">
-                    <a href="pages/portfolio.html"><i class="fa fa-lg fa-fw fa-tasks"></i> My Portfolio</a>
+                  <a href="pages/portfolio.html">
+                    <i class="fa fa-lg fa-fw fa-tasks"></i> <span data-bind="locale: 'my_portofolio'"></span>
+                  </a>
                 </li>
                 <li data-bind="visible: FEATURE_LEADERBOARD">
-                    <a href="pages/leaderboard.html"><i class="fa fa-lg fa-fw fa-trophy"></i> Top Assets</a>
+                  <a href="pages/leaderboard.html">
+                    <i class="fa fa-lg fa-fw fa-trophy"></i> <span data-bind="locale: 'top_assets'"></span>
+                  </a>
                 </li>
                 <li data-bind="visible: FEATURE_STATS">
-                    <a href="pages/stats.html"><i class="fa fa-lg fa-fw fa-crosshairs"></i> Network Stats</a>
+                    <a href="pages/stats.html">
+                      <i class="fa fa-lg fa-fw fa-crosshairs"></i> <span data-bind="locale: 'network_stats'"></span>
+                    </a>
                 </li>
             </ul>
           </li>
@@ -208,10 +258,13 @@
       <!-- END MAIN CONTENT -->
     </div>
     <!-- END MAIN PANEL -->
-    <div class="openChatPane">CHAT</div>
+    <div class="openChatPane" id="openChatPane" data-bind="locale: 'chat'"></div>
     <div id="chatPane" style="display: none">
       <h2 data-bind="html: headerText"></h2>
-      <div class="chatOnlineCount"><span data-bind="text: numUsersOnline"></span> Users Online</div>
+      <div class="chatOnlineCount">
+        <span data-bind="text: numUsersOnline"></span>
+        <span data-bind="locale: 'users_online'"></span>
+      </div>
       <div id="chatContentDiv">
         <div id="chatContentInnerDiv" data-bind="foreach: lines">
           <p class="chatMessage"><span data-bind="html: lineHead"></span><span data-bind="text: text"></span></p>
@@ -220,7 +273,7 @@
       <div id="chatControlDiv" class="row">
         <div class="input-group">
           <span class="input-group-btn">
-            <button id="chatSendButton" data-bind="click: sendLine" class="btn btn-default" type="button">Send</button>
+            <button id="chatSendButton" data-bind="click: sendLine, locale: 'send'" class="btn btn-default" type="button"></button>
           </span>
           <input id="chatTextBox" data-bind="event: { keyup: onKeyUp }" type="text" class="form-control">
         </div><!-- /input-group -->
@@ -234,57 +287,47 @@
           <div class="modal-header">
             <button type="button" data-bind="click: hide" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">
-                <span data-bind="visible: step() == 1">Get Your Passphrase</span>
-                <span data-bind="visible: step() == 2">Quick Access URL</span>
+                <span data-bind="visible: step() == 1, locale: 'get_your_passphrase'"></span>
+                <span data-bind="visible: step() == 2, locale: 'quick_access_url'"></span>
             </h4>
           </div>
           <div class="modal-body">
             <div data-bind="visible: step() == 1">
-              <p class="createWalletHeaderText">We have created a passphrase for you in the box below.<br/>
-                This passphrase lets you access your wallet and the funds it contains.</p> 
+              <p class="createWalletHeaderText" data-bind="locale: 'passphrase_created'"></p> 
               <div class="width-max margin-bottom-10">
                 <span id="generated" data-bind="text: generatedPassphrase"></span>
                 <button id="generated-regenerate" data-bind="click: generatePassphrase, tooltip: {title: 'Click to generate another random passphrase.'}" class="pull-right btn btn-default" type="button"><i class="fa fa-repeat"></i></button>
               </div>
               <div class="alert alert-danger" class="margin-top-10">
-                <p class="logonWarningLine1">Write your passphrase down and keep it safe.</p>
-                <p class="logonWarningOtherLines">
-                  If you lose this passphrase, you will lose access to your wallet <i>forever</i>.
-                </p>
-                <p class="logonWarningOtherLines">
-                  If someone gets your passphrase, they gain access to your wallet.
-                </p>
-                <p class="logonWarningOtherLines">
-                  We do not store your passphrase and cannot recover it if lost.
-                </p>
+                <p class="logonWarningLine1" data-bind="locale: 'write_your_passphrase'"></p>
+                <p class="logonWarningOtherLines" data-bind="locale: 'if_you_lose_passphrase'"></p>
+                <p class="logonWarningOtherLines" data-bind="locale: 'if_someone_get_passphrase'"></p>
+                <p class="logonWarningOtherLines" data-bind="locale: 'we_do_not_store_your_passphrase'"></p>
               </div>
               <div class="width-max">
                 <input type="checkbox" name="passphraseSaved" value="1" data-bind="checked: passphraseSaved" />
-                <label>I have <u>written down</u> or otherwise <u>securely stored</u> my passphrase.</label> 
+                <label data-bind="locale: 'i_have_written_passphrase'"></label> 
               </div>
             </div>
             <div class="width-max" data-bind="visible: step() == 2">
-              <p class="createWalletHeaderText">To avoid having to type the full 12-word passphrase every time you log
-                into Counterwallet, you can <i>optionally</i> use a special <b>Quick Access URL</b> that is produced by entering
-                a password of your choosing.
-              </p>
-              <p class="createWalletHeaderText" data-bind="visible: !showQuickAccessFrame()">If you don't know what this means, just click <b>Skip This Step</b> below.</p>
+              <p class="createWalletHeaderText" data-bind="locale: 'quick_access_intro_1'"></p>
+              <p class="createWalletHeaderText" data-bind="visible: !showQuickAccessFrame(), locale: 'quick_access_intro_2'"></p>
               <div class="width-max margin-bottom-10" data-bind="visible: showQuickAccessFrame()">
-                  <label>Enter a Quick Access password:</label>
+                  <label data-bind="locale: 'enter_quick_access_password'"></label>
                   <input id="quickAccessPassword" data-bind="value: quickAccessPassword, valueUpdate: 'input'" placeholder="Enter the password to generate encrypted url." class="form-control" type="password" name="quickAccessPassword" autocomplete="off">
                   <div class="width-max" data-bind="visible: quickAccessPassword()">
-                      <label class="margin-top-10">Copy down the following secret URL and use with your password for quick access:</label>
+                      <label class="margin-top-10" data-bind="locale: 'copy_down_secret_url'"></label>
                       <textarea id="quickAccessUrl" readonly="true" class="form-control input-lg quickAccessUrl" rows="4" data-bind="value: quickAccessUrl"></textarea>
                   </div>                 
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-bind="visible: step()==1, click: hide">Cancel</button>
-            <button id="continueWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 1, enable: passphraseSaved, click: goToStep2">Continue</button>
-            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && !showQuickAccessFrame(), click: showQuickAccessURLGUI">Create a Quick Access URL</button>
-            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && !showQuickAccessFrame(), click: createWallet">Skip This Step</button>
-            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && showQuickAccessFrame(), click: createWallet">Create Wallet</button>
+            <button type="button" class="btn btn-default" data-bind="visible: step()==1, click: hide, locale: 'cancel'"></button>
+            <button id="continueWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 1, enable: passphraseSaved, click: goToStep2, locale: 'continue'"></button>
+            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && !showQuickAccessFrame(), click: showQuickAccessURLGUI, locale: 'create_quick_access'"></button>
+            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && !showQuickAccessFrame(), click: createWallet, locale: 'skip_this_step'"></button>
+            <button id="finishWalletCreation" type="button" class="btn btn-primary" data-bind="visible: step() == 2 && showQuickAccessFrame(), click: createWallet, locale: 'create_wallet'"></button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -292,26 +335,34 @@
 
     <!-- Logged out cover div -->
     <div id="logon">
-      <h1>Welcome to Counterwallet<span data-bind="visible: USE_TESTNET">&nbsp;Testnet</span></h1>
-      <h2>Powered by Counterparty</h2>
+      <h1>
+        <span data-bind="locale: 'welcome'"></span>
+        <span data-bind="visible: USE_TESTNET, locale: 'testnet'"></span>
+      </h1>
+      <h2 data-bind="locale: 'powered_by_counterparty'"></h2>
       <div id="form-well">
 
         <div id="createNewAcctBtnPane">
-          <button id="newWalletButton" data-bind="click: generatePassphrase" type="button" class="btn btn-success btn-lg">Create New Wallet</button>
+          <button id="newWalletButton" data-bind="click: generatePassphrase, locale: 'create_new_wallet'" type="button" class="btn btn-success btn-lg"></button>
         </div>
         
         <div data-bind="visible: !USE_TESTNET" class="alert alert-info" class="margin-bottom-0">
-           <p><i class="fa-fw fa fa-rocket"></i>&nbsp;New to Counterwallet, and want to just play around?
-               <b><a href="https://testnet.counterwallet.co" target="_blank">Try Counterwallet Testnet!</a></b> 
+           <p>
+              <i class="fa-fw fa fa-rocket"></i>
+              <span data-bind="locale: 'new_to_counterwallet'"></span>
+               <b><a href="https://testnet.counterwallet.co" target="_blank" data-bind="locale: 'try_testnet'"></a></b> 
            </p>
          </div>
 
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title">
-              <b>Log Into Your <span data-bind="visible: USE_TESTNET">Testnet&nbsp;</span>Wallet</b>
-              <span data-bind="fadeVisibleInOnly: IS_DEV" class="label label-warning pull-right margin-left-5 padding-5 display-none"><i class="fa-fw fa fa-warning"></i>&nbsp;Dev Mode Enabled</span>
-              <span data-bind="fadeVisibleInOnly: USE_TESTNET" class="label label-info pull-right margin-left-5 padding-5 display-none"><i class="fa-fw fa fa-info"></i>&nbsp;Testnet In Use</span>
+              <b data-bind="visible: USE_TESTNET, locale: 'log_into_your_testnet_wallet'"></b>
+              <b data-bind="visible: !USE_TESTNET, locale: 'log_into_your_wallet'"></b>
+              <span data-bind="fadeVisibleInOnly: IS_DEV, locale: 'dev_mode_enabled'" class="label label-warning pull-right margin-left-5 padding-5 display-none"></span>
+              <span data-bind="fadeVisibleInOnly: USE_TESTNET" class="label label-info pull-right margin-left-5 padding-5 display-none">
+                <i class=\"fa-fw fa fa-info\"></i> <b data-bind="locale: 'testnet_in_use'"></b>
+              </span>
             </h3>
           </div>
           <div class="panel-body" class="padding-left-5 padding-right-5">
@@ -327,7 +378,7 @@
                 </div>
 
                 <div class="col-sm-4">
-                  <button id="walletLoginButton" data-bind="click: openWallet, enable: isPassphraseValid(), css: { 'btn-primary': isPassphraseValid() }" type="button" class="btn btn-default" disabled>Open Wallet</button>
+                  <button id="walletLoginButton" data-bind="click: openWallet, enable: isPassphraseValid(), css: { 'btn-primary': isPassphraseValid() }, locale: 'open_wallet'" type="button" class="btn btn-default" disabled></button>
                   &nbsp;<button id="secureKeyboardButton" data-bind="click: showSecureKeyboard, enable: !isPassphraseValid(), css: { 'btn-primary': !isPassphraseValid() }" type="button" class="btn btn-default" disabled><i class="fa fa-keyboard-o"></i></button>
                 </div>
 
@@ -344,29 +395,23 @@
       </div> <!-- form-well -->
       
        <div id="extra-info" class="container">
-        <h3 class="sales-title margin-bottom-10">
-          Counterwallet is a web-wallet for <a href="http://www.counterparty.co" target="_blank">Counterparty</a>,
-          the world’s first protocol for decentralized financial tools.
-        </h3>
-        <h4 class="sales-title">
-          All transactions made with Counterwallet use an automatic escrow system to keep them secure, with no middleman required.
-        </h4>
+        <h3 class="sales-title margin-bottom-10" data-bind="locale: 'counterwallet_desc_1'"></h3>
+        <h4 class="sales-title" data-bind="locale: 'counterwallet_desc_2'"></h4>
         <div class="row">
           <div class="col-sm-4 col-md-4">
-            <h4 class="margin-bottom-10"><i class="fa fa-lock"></i> Secure</h4>
-            <p>All encryption is handled client-side. Neither your passphrase nor any of your private information ever leaves your browser.</p>
-            <p>Counterwallet passhrases are highly secure, so you know that your wallet is safe from all brute
-               force attacks. They are also easy to learn and hard to mistype.</p>
+            <h4 class="margin-bottom-10" data-bind="locale: 'counterwallet_desc_3'"></h4>
+            <p data-bind="locale: 'counterwallet_desc_4'"></p>
+            <p data-bind="locale: 'counterwallet_desc_5'"></p>
           </div>
           <div class="col-sm-4 col-md-4">
-            <h4 class="margin-bottom-10"><i class="fa fa-cloud"></i> Simple</h4>
-            <p>With Counterwallet, your passphrase is your wallet, and all of your addresses and keys are generated on-the-fly when you log in.</p>
-            <p>There are no wallet files to backup or keep private, and with your passphrase you can access your wallet from any trusted machine with a web browser.</p> 
+            <h4 class="margin-bottom-10" data-bind="locale: 'counterwallet_desc_6'"></h4>
+            <p data-bind="locale: 'counterwallet_desc_7'"></p>
+            <p data-bind="locale: 'counterwallet_desc_8'"></p> 
           </div>
           <div class="col-sm-4 col-md-4">
-            <h4 class="margin-bottom-10"><i class="fa fa-globe"></i> Open-Source</h4>
-            <p>Counterwallet and Counterwalletd are entirely open-source, so you know that they work exactly the way that they are supposed to.</p>
-            <p>If you like, you may also even run your own Counterwallet server.</p>
+            <h4 class="margin-bottom-10" data-bind="locale: 'counterwallet_desc_9'"></h4>
+            <p data-bind="locale: 'counterwallet_desc_10'"></p>
+            <p data-bind="locale: 'counterwallet_desc_11'"></p>
           </div>
         </div>
       </div>
@@ -378,13 +423,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" data-bind="click: hide" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">License Agreement</h4>
+            <h4 class="modal-title" data-bind="locale: 'license_agreement'"></h4>
           </div>
           <div class="modal-body no-padding">
-            <p data-bind="visible: !WALLET.isExplicitlyNew()" class="formPadded bg-warning padding-10">
-                If you are being asked to accept the Terms and Conditions, this is the first time you are opening this
-                wallet. <b>If you are trying to access an old wallet, you have typed the passphrase incorrectly.</b></p>
-            <p class="formPadded">You must read and accept the following agreement in order to use this site:</p>
+            <p data-bind="visible: !WALLET.isExplicitlyNew(), locale: 'is_the_first_time'" class="formPadded bg-warning padding-10"></p>
+            <p class="formPadded" data-bind="locale: 'you_must_read'"></p>
             <form class="smart-form"><fieldset>
               <section><div class="row">
                   <textarea id="licenseAgreementText" class="form-control" rows="10" readonly="readonly"></textarea>
@@ -392,8 +435,8 @@
             </fieldset></form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bind="click: rejectTerms">Reject Terms</button>
-            <button type="button" data-bind="click: acceptTerms" class="btn btn-success">Accept Terms</button>
+            <button type="button" class="btn btn-danger" data-bind="click: rejectTerms, locale: 'reject_terms'"></button>
+            <button type="button" class="btn btn-success" data-bind="click: acceptTerms, locale: 'accept_terms'"></button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -405,12 +448,10 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" data-bind="click: hide" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Secure Passphrase Entry</h4>
+            <h4 class="modal-title" data-bind="locale: 'secure_passphrase_entry'"></h4>
           </div>
           <div class="modal-body no-padding">
-            <p class="formPadded">Each text box below corresponds to a word in your 12-word passphrase. To enter your
-                passphrase, click on each box and use the on-screen keyboard that appears, then press the Login button
-                when done. This approach limits the ability that malware and keyloggers have of stealing your passphrase.</p>
+            <p class="formPadded" data-bind="locale: 'secure_passphrase_desc'"></p>
             <form class="smart-form" data-bind="submit: doAction"><fieldset>
               <section><div class="row">
                 <div class="col col-3">
@@ -457,8 +498,8 @@
             </fieldset></form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-bind="click: hide">Cancel</button>
-            <button type="button" data-bind="click: submitForm" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-default" data-bind="click: hide, locale: 'cancel'"></button>
+            <button type="button" class="btn btn-primary" data-bind="click: submitForm, locale: 'login'"></button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -470,18 +511,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" data-bind="click: hide" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Choose Your Handle</h4>
+            <h4 class="modal-title" data-bind="locale: 'choose_your_handle'"></h4>
           </div>
           <div class="modal-body no-padding">
-            <div class="formPadded">
-                To use chat, you must have a handle (or nickname) you wish to use (alphanumeric/underscore/hyphen, between 4 and 12 characters).<br/><br/>
-                <b class="txt-color-red">Please remember that people in chat may not always be who they seem. Until a verified
-                identity system is implemented for chat, do not simply trust someone is who their handle says they are!</b>                
+            <div class="formPadded" data-bind="locale: 'choose_your_handle_desc'">
+                               
             </div>
 
             <form class="smart-form" data-bind="submit: doAction"><fieldset>
               <section><div class="row">
-                <label class="control-label col col-sm-2">Your Handle</label>
+                <label class="control-label col col-sm-2" data-bind="locale: 'your_handle'"></label>
                 <div class="col col-sm-10">
                     <label class="input"><i class="icon-append fa fa-info"></i>
                         <input name="newHandle" data-bind="value: newHandle, valueUpdate: 'input'" type="text"/>
@@ -491,8 +530,8 @@
             </fieldset></form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-bind="click: hide">Cancel</button>
-            <button id="startChatBtn" type="button" data-bind="click: submitForm, enable: startEnable" class="btn btn-primary">Start Chat</button>
+            <button type="button" class="btn btn-default" data-bind="click: hide, locale: 'cancel'"></button>
+            <button id="startChatBtn" type="button" data-bind="click: submitForm, enable: startEnable, locale: 'start_chat'" class="btn btn-primary"></button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -930,6 +969,9 @@
     <script src="vendors/iso8601-js-period/iso8601.min.js"></script>
     <script src="vendors/queue/queue.min.js"></script>
     <script src="vendors/htmlcanvas/build/html2canvas.js"></script>
+
+    <script src="vendors/sprintf/dist/sprintf.min.js"></script>
+    <script src="vendors/i18next/i18next.min.js"></script>
 
     <!-- endbuild -->
 

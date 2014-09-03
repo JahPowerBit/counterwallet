@@ -1,6 +1,28 @@
 INIT_FUNC = {};
 PROCESSED_BTCPAY = {};
 
+i18nOptions = { 
+  lng: LANG,
+  fallbackLng: 'en',
+  lngWhitelist: ['en', 'fr'],
+  resGetPath: 'locales/__lng__/__ns__.json', 
+  shorcutFunction: 'sprintf'
+}
+
+i18n.init(i18nOptions, function() {
+  initIndex(); //call it now, as this script is loaded on index page load
+});
+
+ko.bindingHandlers['locale'] = {
+    update: function(element, valueAccessor, allBindings){
+        var key = ko.unwrap(valueAccessor());
+        var args = ko.toJS(allBindings.get('localeArgs') || []);
+        var translation = i18n.t(key, {postProcess: 'sprintf', sprintf: args});
+        $.jqlog.debug(key + " : " + translation);
+        element.innerHTML = translation;
+    }
+};
+
 function initIndex() { //main page
   window.LOGON_VIEW_MODEL = new LogonViewModel();
   window.LICENSE_MODAL = new LicenseModalViewModel();
@@ -43,6 +65,8 @@ function initIndex() { //main page
     //so that knockout is run on the DOM sections and global context is accessible...
     ko.applyBindings({}, document.getElementById("noticeTestnet"));
     ko.applyBindings({}, document.getElementById("noticeDevMode"));
+    ko.applyBindings({}, document.getElementById("donate"));
+    ko.applyBindings({}, document.getElementById("openChatPane"));
     
     $('#fullscreen').click(function(e) {
       launchFullscreen(document.documentElement);
@@ -94,7 +118,6 @@ function initIndex() { //main page
     $('#allContent').show();
   });
 }
-initIndex(); //call it now, as this script is loaded on index page load
 
 
 function initBalances() {

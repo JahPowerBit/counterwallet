@@ -50,6 +50,12 @@ var DEFAULT_PREFERENCES = {
 
 var TESTNET_PASSPHRASE = qs("passphrase");
 
+var LANG = 'en';
+
+if (qs('lang')) {
+  LANG = qs('lang');
+}
+
 var CRYPTED_PASSPHRASE;
 if (location.hash.indexOf('cp=') == 1) {
   CRYPTED_PASSPHRASE = location.hash.substr(4);
