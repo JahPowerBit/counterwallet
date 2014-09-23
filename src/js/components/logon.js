@@ -161,6 +161,12 @@ function LogonViewModel() {
       // set quote assets
       QUOTE_ASSETS = data['quote_assets']
 
+      AUTO_BTC_ESCROW_ENABLE = data['auto_btc_escrow_enable'];
+      if (AUTO_BTC_ESCROW_ENABLE) {
+        ESCROW_COMMISSION = data['auto_btc_escrow']['commission_percentage'] / 100;
+        BTCPAY_FEE_RETAINER = denormalizeQuantity(data['auto_btc_escrow']['btcpay_fee_retainer']);
+      }
+
       QUICK_BUY_ENABLE = data['quick_buy_enable'];
       
       //See if any servers show the wallet as online (this will return the a true result, if any server shows the wallet as online)
@@ -245,6 +251,12 @@ function LogonViewModel() {
         }
       }
 
+      //Update/upgrade any specific pref settings
+      if(!AUTO_BTC_ESCROW_ENABLE && PREFERENCES['btcpay_method'] === 'autoescrow') {
+        PREFERENCES['btcpay_method'] = 'auto'; //no auto BTC services enabled
+        mustSavePreferencesToServer = true;
+      }
+
     } else { //could not find user stored preferences
       //No server had the preferences
       $.jqlog.log("Stored preferences NOT found on server(s). Creating new...");
@@ -260,6 +272,8 @@ function LogonViewModel() {
     }
     
     WALLET_OPTIONS_MODAL.selectedTheme(PREFERENCES['selected_theme']);
+    WALLET_OPTIONS_MODAL.addAutoBTCEscrowOptionIfAvailable();
+    WALLET_OPTIONS_MODAL.selectedBTCPayMethod(PREFERENCES['btcpay_method']);
     
     self.displayLicenseIfNecessary(mustSavePreferencesToServer);
   }
